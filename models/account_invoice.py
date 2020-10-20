@@ -12,6 +12,7 @@ class AccountInvoice(models.Model):
     @api.multi
     @api.depends('amount_total')
     def amount_to_words(self):
-        if self.company_id.text_amount_language_currency:
-            self.text_amount = num2words(self.amount_total, to='currency',
-                                         lang=self.company_id.text_amount_language_currency)
+        for record in self:
+            if record.company_id.text_amount_language_currency:
+               record.text_amount = num2words(record.amount_total, to='currency',
+                                             lang=record.company_id.text_amount_language_currency)
